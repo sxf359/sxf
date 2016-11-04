@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AA0752F8-22AC-409F-A500-40A81B9C5D06}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SXF.Utils</RootNamespace>
+    <AssemblyName>SXF.Utils</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/SXF.Utils/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Quartz, Version=1.0.3.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Reference\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="QuartzScheduler\QuartzJob.cs" />
+    <Compile Include="QuartzScheduler\QuartzWorker.cs" />
+    <Compile Include="Utils\AES.cs" />
+    <Compile Include="Utils\ApplicationSettings.cs" />
+    <Compile Include="Utils\CacheHelper.cs" />
+    <Compile Include="Utils\CollectionHelper.cs" />
+    <Compile Include="Utils\Common.cs" />
+    <Compile Include="Utils\Cookie.cs" />
+    <Compile Include="Utils\CreateFile.cs" />
+    <Compile Include="Utils\CtrlHelper.cs" />
+    <Compile Include="Utils\CWHEncryptNet.cs" />
+    <Compile Include="Utils\DataHelper.cs" />
+    <Compile Include="Utils\DateHelper.cs" />
+    <Compile Include="Utils\DES.cs" />
+    <Compile Include="Utils\DropDownListHelp.cs" />
+    <Compile Include="Utils\Email.cs" />
+    <Compile Include="Utils\Encrypt.cs" />
+    <Compile Include="Utils\EnumDescription.cs" />
+    <Compile Include="Utils\EventLog.cs" />
+    <Compile Include="Utils\ExceptionHelper.cs" />
+    <Compile Include="Utils\ExtensionMethodControl.cs" />
+    <Compile Include="Utils\ExtensionMethodString.cs" />
+    <Compile Include="Utils\FileManager.cs" />
+    <Compile Include="Utils\FolderInfo.cs" />
+    <Compile Include="Utils\FrameworkExcption.cs" />
+    <Compile Include="Utils\IPQuery.cs" />
+    <Compile Include="Utils\IPQueryByTaobao.cs" />
+    <Compile Include="Utils\JSHelper.cs" />
+    <Compile Include="Utils\JSONHelper.cs" />
+    <Compile Include="Utils\Judge.cs" />
+    <Compile Include="Utils\MachineCode.cs" />
+    <Compile Include="Utils\PageHelper.cs" />
+    <Compile Include="Utils\PageHttpHandler.cs" />
+    <Compile Include="Utils\PinYin.cs" />
+    <Compile Include="Utils\ReflectionHelper.cs" />
+    <Compile Include="Utils\RequestHelper.cs" />
+    <Compile Include="Utils\SerializationHelper.cs" />
+    <Compile Include="Utils\SessionState.cs" />
+    <Compile Include="Utils\ShoppingCart.cs" />
+    <Compile Include="Utils\Sms.cs" />
+    <Compile Include="Utils\StringBuffer.cs" />
+    <Compile Include="Utils\StringCommon.cs" />
+    <Compile Include="Utils\SymmetricMethod.cs" />
+    <Compile Include="Utils\Terminator.cs" />
+    <Compile Include="Utils\TextEncrypt.cs" />
+    <Compile Include="Utils\TextFilter.cs" />
+    <Compile Include="Utils\TextLogger.cs" />
+    <Compile Include="Utils\TextLoggerEntity.cs" />
+    <Compile Include="Utils\TextUtility.cs" />
+    <Compile Include="Utils\TypeHelper.cs" />
+    <Compile Include="Utils\TypeParse.cs" />
+    <Compile Include="Utils\UCException.cs" />
+    <Compile Include="Utils\UploadFile.cs" />
+    <Compile Include="Utils\UrlFilterModule.cs" />
+    <Compile Include="Utils\UrlRewriteRules.cs" />
+    <Compile Include="Utils\Utility.cs" />
+    <Compile Include="Utils\Validate.cs" />
+    <Compile Include="Utils\VerifyCode.cs" />
+    <Compile Include="Utils\XmlOperate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\erro.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smsIllegalChar.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IPdataFileNotExists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Terminator_ExceptionTemplate.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QuartzScheduler\App.config" />
+    <None Include="Resources\WebConfigHasNotAddKey.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="QuartzScheduler\read.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
