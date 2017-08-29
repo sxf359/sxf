@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace SXF.Utils
 {
@@ -132,15 +130,29 @@ namespace SXF.Utils
             try
             {
                 Byte[] encryptedDataBytes = System.Convert.FromBase64String(sourceData);
-                MemoryStream tempStream = new MemoryStream(encryptedDataBytes, 0, encryptedDataBytes.Length);
-                DESCryptoServiceProvider decryptor = new DESCryptoServiceProvider();
-                CryptoStream decryptionStream = new CryptoStream(tempStream, decryptor.CreateDecryptor(keys, iv), CryptoStreamMode.Read);
-                StreamReader allDataReader = new StreamReader(decryptionStream);
-                return allDataReader.ReadToEnd();
+                using (MemoryStream tempStream = new MemoryStream(encryptedDataBytes, 0, encryptedDataBytes.Length))
+                {
+                    using (DESCryptoServiceProvider decryptor = new DESCryptoServiceProvider())
+                    {
+                        using (
+                            CryptoStream decryptionStream = new CryptoStream(tempStream,
+                                decryptor.CreateDecryptor(keys, iv), CryptoStreamMode.Read))
+                        {
+                            using (StreamReader allDataReader = new StreamReader(decryptionStream))
+                            {
+                                return allDataReader.ReadToEnd();
+                            }
+
+                        }
+
+                    }
+
+                }
+
             }
             catch (Exception ex)
             {
-                throw (ex);
+                throw;
             }
         }
         #endregion

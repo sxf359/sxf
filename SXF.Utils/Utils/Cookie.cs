@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace SXF.Utils
 {
@@ -49,27 +46,14 @@ namespace SXF.Utils
         /// </remarks>
         public static void SetCookie(string strCookieName, int iExpires, string strValue)
         {
-            HttpCookie objCookie;
-            if (HttpContext.Current.Request.Cookies[strCookieName.Trim()] == null)  //若不存在则创建
-            {
-                objCookie = new HttpCookie(strCookieName.Trim());
-            }
-            else    //否则读取
-            {
-                objCookie = HttpContext.Current.Request.Cookies[strCookieName.Trim()];
-            }
+            var objCookie = HttpContext.Current.Request.Cookies[strCookieName.Trim()] ??
+                                   new HttpCookie(strCookieName.Trim());
+
 
             objCookie.Value = HttpContext.Current.Server.UrlEncode(strValue.Trim());
             if (iExpires > 0)
             {
-                if (iExpires == 1)
-                {
-                    objCookie.Expires = DateTime.MaxValue;
-                }
-                else
-                {
-                    objCookie.Expires = DateTime.Now.AddSeconds(iExpires);
-                }
+                objCookie.Expires = iExpires == 1 ? DateTime.MaxValue : DateTime.Now.AddSeconds(iExpires);
             }
             HttpContext.Current.Response.Cookies.Add(objCookie);
         }
@@ -165,7 +149,7 @@ namespace SXF.Utils
         }
 
 
-        
+
 
         /// <summary>
         /// 创建COOKIE对象并赋多个KEY键值
@@ -249,7 +233,7 @@ namespace SXF.Utils
             {
                 string strObjValue = HttpContext.Current.Request.Cookies[strCookieName].Value;
                 string strKeyName2 = strKeyName + "=";
-                if (strObjValue.IndexOf(strKeyName2) == -1)
+                if (strObjValue.IndexOf(strKeyName2, StringComparison.Ordinal) == -1)
                 {
                     return null;
                 }
@@ -259,7 +243,7 @@ namespace SXF.Utils
                 }
             }
         }
-        #endregion 
+        #endregion
 
 
         #region 修改cookie值操作
@@ -317,7 +301,7 @@ namespace SXF.Utils
         {
             return Edit(strCookieName, strKeyName, KeyValue, 24 * 60 * 60);
         }
-        #endregion 
+        #endregion
 
 
         #region 删除cookie操作
@@ -383,7 +367,7 @@ namespace SXF.Utils
         {
             return Delete(strCookieName, strKeyName, 24 * 60 * 60);
         }
-        #endregion 
+        #endregion
 
 
 

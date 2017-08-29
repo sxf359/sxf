@@ -17,11 +17,11 @@
             /// <summary>
             /// 仅操作属性
             /// </summary>
-            XmlProperty ,
+            XmlProperty,
             /// <summary>
             ///  仅操作节点
             /// </summary>
-            XmlNodes ,
+            XmlNodes,
             /// <summary>
             /// 属性和节点都操作
             /// </summary>
@@ -88,7 +88,7 @@
                 this._xPath = value;
             }
         }
-        #endregion 
+        #endregion
 
         public XmlOperate()
         {
@@ -103,25 +103,25 @@
         /// </summary>
         /// <param name="Name">指定属性或子节点</param>
         /// <returns></returns>
-        public bool CheckXml( string Name )
+        public bool CheckXml(string Name)
         {
             bool flag = false;
             XmlDocument document = new XmlDocument();
-            document.Load( this.filePath );
-            XmlElement element = ( XmlElement )document.SelectSingleNode( this.xPath );
-            switch ( this.Method )
+            document.Load(this.filePath);
+            XmlElement element = (XmlElement)document.SelectSingleNode(this.xPath);
+            switch (this.Method)
             {
                 case OperateXmlMethod.XmlProperty:
-                    if ( element.HasAttribute( Name ) )
+                    if (element.HasAttribute(Name))
                     {
                         flag = true;
                     }
                     return flag;
 
                 case OperateXmlMethod.XmlNodes:
-                    for ( int i = 0; i < element.ChildNodes.Count; i++ )
+                    for (int i = 0; i < element.ChildNodes.Count; i++)
                     {
-                        if ( element.ChildNodes.Item( i ).Name == Name )
+                        if (element.ChildNodes.Item(i).Name == Name)
                         {
                             flag = true;
                         }
@@ -135,34 +135,36 @@
         /// </summary>
         /// <param name="name">指定属性或子节点</param>
         /// <returns></returns>
-        public IList<string> GetXml( string name )
+        public IList<string> GetXml(string name)
         {
             List<string> list = new List<string>();
             int num = 0;
             XmlDocument document = new XmlDocument();
-            document.Load( this.filePath );
-            XmlNodeList list2 = document.SelectNodes( this.xPath );
-            foreach ( XmlNode node in list2 )
+            document.Load(this.filePath);
+            //EventLog.WriteLog("path:" + xPath);
+            XmlNodeList list2 = document.SelectNodes(this.xPath);
+            //EventLog.WriteLog("mum:" + list2.Count);
+            foreach (XmlNode node in list2)
             {
-                XmlElement element = ( XmlElement )node;
-                switch ( this.Method )
+                XmlElement element = (XmlElement)node;
+                switch (this.Method)
                 {
                     case OperateXmlMethod.XmlProperty:
-                        if ( element.HasAttribute( name ) )
+                        if (element.HasAttribute(name))
                         {
-                            list.Add( element.GetAttribute( name ) );
+                            list.Add(element.GetAttribute(name));
                         }
                         break;
 
                     case OperateXmlMethod.XmlNodes:
                         {
                             XmlNodeList childNodes = element.ChildNodes;
-                            foreach ( XmlNode node2 in childNodes )
+                            foreach (XmlNode node2 in childNodes)
                             {
-                                XmlElement element2 = ( XmlElement )node2;
-                                if ( element2.Name == name )
+                                XmlElement element2 = (XmlElement)node2;
+                                if (element2.Name == name)
                                 {
-                                    list.Add( element2.InnerText );
+                                    list.Add(element2.InnerText);
                                 }
                             }
                             break;
@@ -179,34 +181,34 @@
         /// <param name="type">0为属性，1为节点</param>
         /// <param name="name">指定属性或子节点</param>
         /// <returns></returns>
-        public IList<string> GetXml( string nodes , int type , string name )
+        public IList<string> GetXml(string nodes, int type, string name)
         {
             List<string> list = new List<string>();
             int num = 0;
             XmlDocument document = new XmlDocument();
-            document.Load( this.filePath );
-            XmlNodeList list2 = document.SelectNodes( nodes );
-            foreach ( XmlNode node in list2 )
+            document.Load(this.filePath);
+            XmlNodeList list2 = document.SelectNodes(nodes);
+            foreach (XmlNode node in list2)
             {
-                XmlElement element = ( XmlElement )node;
-                switch ( type )
+                XmlElement element = (XmlElement)node;
+                switch (type)
                 {
                     case 0:
-                        if ( element.HasAttribute( name ) )
+                        if (element.HasAttribute(name))
                         {
-                            list.Add( element.GetAttribute( name ) );
+                            list.Add(element.GetAttribute(name));
                         }
                         break;
 
                     case 1:
                         {
                             XmlNodeList childNodes = element.ChildNodes;
-                            foreach ( XmlNode node2 in childNodes )
+                            foreach (XmlNode node2 in childNodes)
                             {
-                                XmlElement element2 = ( XmlElement )node2;
-                                if ( element2.Name == name )
+                                XmlElement element2 = (XmlElement)node2;
+                                if (element2.Name == name)
                                 {
-                                    list.Add( element2.InnerText );
+                                    list.Add(element2.InnerText);
                                 }
                             }
                             break;
@@ -221,11 +223,11 @@
         /// </summary>
         /// <param name="nodes"></param>
         /// <returns></returns>
-        public XmlElement GetXmlElement( string nodes )
+        public XmlElement GetXmlElement(string nodes)
         {
             XmlDocument document = new XmlDocument();
-            document.Load( this.filePath );
-            return ( XmlElement )document.SelectSingleNode( nodes );
+            document.Load(this.filePath);
+            return (XmlElement)document.SelectSingleNode(nodes);
         }
         /// <summary>
         ///  提取指定XML文件某个节点的信息(包括属性及其子节点)
@@ -233,26 +235,119 @@
         /// <param name="nodes">要提取的节点位置</param>
         /// <param name="method">0提取单个节点，1提取所有相关节点</param>
         /// <returns></returns>
-        public XmlNodeList GetXmlNodeList( string nodes , int method )
+        public XmlNodeList GetXmlNodeList(string nodes, int method)
         {
             XmlDocument document = new XmlDocument();
-            if ( !string.IsNullOrEmpty( this.fileContent ) )
+            if (!string.IsNullOrEmpty(this.fileContent))
             {
-                document.LoadXml( this.fileContent );
+                document.LoadXml(this.fileContent);
             }
             else
             {
-                document.Load( this.filePath );
+                document.Load(this.filePath);
             }
-            switch ( method )
+            switch (method)
             {
                 case 0:
-                    return document.SelectSingleNode( nodes ).ChildNodes;
+                    return document.SelectSingleNode(nodes).ChildNodes;
 
                 case 1:
-                    return document.SelectNodes( nodes );
+                    return document.SelectNodes(nodes);
             }
             return null;
+        }
+
+        /// <summary>
+        /// 功能:
+        /// 读取指定节点的指定属性值
+        /// </summary>
+        /// <param name="strNode">节点名称(相对路径：//+节点名称)</param>
+        /// <param name="strAttribute">此节点的属性</param>
+        /// <returns></returns>
+        public string GetXmlNodeValue(string strNode, string strAttribute)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            if (!string.IsNullOrEmpty(this.fileContent))
+            {
+                xmlDoc.LoadXml(this.fileContent);
+            }
+            else
+            {
+                xmlDoc.Load(this.filePath);
+            }
+            string strReturn = "";
+            try
+            {
+                //根据指定路径获取节点
+                XmlNode xmlNode = xmlDoc.SelectSingleNode(strNode);
+                //获取节点的属性，并循环取出需要的属性值
+                XmlAttributeCollection xmlAttr = xmlNode.Attributes;
+
+                for (int i = 0; i < xmlAttr.Count; i++)
+                {
+                    if (xmlAttr.Item(i).Name == strAttribute)
+                    {
+                        strReturn = xmlAttr.Item(i).Value;
+                        //EventLog.WriteLog(xmlAttr.Item(i).Name + ":" + xmlAttr.Item(i).Value);
+                    }
+                }
+            }
+            catch (XmlException xmle)
+            {
+                throw xmle;
+            }
+            return strReturn;
+        }
+        /// <summary>
+        /// 根据key的值，获取相应节点的value值
+        /// </summary>
+        /// <param name="strNode">节点</param>
+        /// <param name="key">key值</param>
+        /// <returns></returns>
+        public string GetXmlKeyValue(string strNode, string key)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            if (!string.IsNullOrEmpty(this.fileContent))
+            {
+                xmlDoc.LoadXml(this.fileContent);
+            }
+            else
+            {
+                xmlDoc.Load(this.filePath);
+            }
+            string strReturn = "";
+            try
+            {
+                //根据指定路径获取节点列表
+                XmlNodeList xmlNodeList = xmlDoc.SelectNodes(strNode);
+                foreach (XmlNode xmlNode in xmlNodeList)
+                {
+                    //获取节点的属性，并循环取出需要的属性值
+                    XmlAttributeCollection xmlAttr = xmlNode.Attributes;
+
+                    for (int i = 0; i < xmlAttr.Count; i++)
+                    {
+                        if (xmlAttr.Item(i).Name.Equals("key", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (!xmlAttr.Item(i).Value.Equals(key, StringComparison.OrdinalIgnoreCase))
+                            {
+                                break;
+                            }
+                        }
+                        if (xmlAttr.Item(i).Name.Equals("value", StringComparison.OrdinalIgnoreCase))
+                        {
+                            strReturn = xmlAttr.Item(i).Value;
+                            return strReturn;
+                        }
+                    }
+                }
+
+            }
+            catch (XmlException xmle)
+            {
+                throw xmle;
+            }
+            return strReturn;
         }
 
         public void ChangeNode(DataTable dt)
@@ -262,12 +357,12 @@
             XmlNode node = document.SelectSingleNode(this.xPath);
             if (node != null)
             {
-                XmlElement element = (XmlElement) node;
+                XmlElement element = (XmlElement)node;
                 for (int i = 0; i < dt.Columns.Count; i++)
                 {
                     XmlNodeList childNodes;
                     Debug.WriteLine(string.Format("XML 操作：{0}", i.ToString()));
-                    if (dt.Columns[i].ColumnName.StartsWith("@"))
+                    if (dt.Columns[i].ColumnName.StartsWith("@", StringComparison.Ordinal))
                     {
                         string name = dt.Columns[i].ColumnName.Replace("@", "");
                         if (element.HasAttribute(name))
@@ -289,7 +384,7 @@
                         XmlElement element2;
                         try
                         {
-                            element2 = (XmlElement) node2;
+                            element2 = (XmlElement)node2;
                         }
                         catch
                         {
@@ -333,7 +428,7 @@
             XmlNodeList list = document.SelectNodes(parentNodeName);
             foreach (XmlNode node in list)
             {
-                XmlElement element = (XmlElement) node;
+                XmlElement element = (XmlElement)node;
                 if (type == 0)
                 {
                     if (element.HasAttribute(thename))
@@ -346,7 +441,7 @@
                     XmlNodeList childNodes = element.ChildNodes;
                     foreach (XmlNode node2 in childNodes)
                     {
-                        XmlElement element2 = (XmlElement) node2;
+                        XmlElement element2 = (XmlElement)node2;
                         if (element2.Name == thename)
                         {
                             try
@@ -362,7 +457,176 @@
                 }
             }
             document.Save(this.filePath);
-        }       
+        }
+
+        #region 设置节点的属性值
+        /// <summary>
+        /// 设置一个指定节点的指定属性的值
+        /// </summary>
+        /// <param name="NodeIndex">节点索引</param>
+        /// <param name="xmlNodePath">节点路径</param>
+        /// <param name="AttributeName">属性名称</param>
+        /// <param name="AttributeValue">属性值</param>
+        /// <returns></returns>
+        public bool SetXmlNodeAttribute(int NodeIndex, string xmlNodePath, string AttributeName, string AttributeValue)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(this.filePath);
+            string temp = string.Format(AttributeName);
+            try
+            {
+                //是否有多个相同的节点
+                if (NodeIndex != -1)
+                {
+
+                    //获取节点列表
+                    XmlNodeList ndlist = xmlDoc.SelectNodes(xmlNodePath);
+                    //获取属性列表
+                    XmlAttributeCollection xmlAttr = ndlist[NodeIndex].Attributes;
+                    //属性是否为空
+                    if (xmlAttr != null)
+                    {
+                        //EventLog.WriteLog("ab");
+                        //是否指定属性名称(也就是是否节点是唯一属性)
+                        if (!string.IsNullOrEmpty(AttributeName))
+                        {
+                            //获取属性相对应的属性名次，并设置属性名
+                            for (int i = 0; i < xmlAttr.Count; i++)
+                            {
+                                //EventLog.WriteLog(xmlAttr.Item(i).Name);
+                                if (xmlAttr.Item(i).Name == AttributeName)
+                                {
+                                    //EventLog.WriteLog("ab:"+xmlAttr.Item(i).Name);
+                                    xmlAttr.Item(i).Value = AttributeValue;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //没有制定属性名的情况下返回第一个属性
+                            xmlAttr.Item(0).Value = AttributeValue;
+                        }
+                        xmlDoc.Save(this.filePath);
+                        return true;
+                    }
+                    else
+                    {
+                        //EventLog.WriteLog("cd");
+                        return false;
+                    }
+                }
+                else
+                {
+                    //根据指定路径获取节点
+                    XmlNode xmlNode = xmlDoc.SelectSingleNode(xmlNodePath);
+                    //获取节点的属性，并循环取出需要的属性值
+                    XmlAttributeCollection xmlAttr = xmlNode.Attributes;
+                    //属性是否为空
+                    if (xmlAttr != null)
+                    {
+                        //是否指定属性名称(也就是是否节点是唯一属性)
+                        if (!string.IsNullOrEmpty(AttributeName))
+                        {
+                            //获取属性相对应的属性名次，并设置属性名
+                            for (int i = 0; i < xmlAttr.Count; i++)
+                            {
+                                if (xmlAttr.Item(i).Name == AttributeName)
+                                {
+                                    xmlAttr.Item(i).Value = AttributeValue;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //没有制定属性名的情况下返回第一个属性
+                            xmlAttr.Item(0).Value = AttributeValue;
+                        }
+                        xmlDoc.Save(this.filePath);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (XmlException xmle)
+            {
+                throw xmle;
+            }
+        }
+        /// <summary>
+        /// 设置一个节点指定属性的值
+        /// </summary>
+        /// <param name="xmlNodePath">节点路径</param>
+        /// <param name="AttributeName">属性名称</param>
+        /// <param name="AttributeValue">属性值</param>
+        /// <returns>bool值</returns>
+        public bool SetXmlNodeAttribute(string xmlNodePath, string AttributeName, string AttributeValue)
+        {
+            return SetXmlNodeAttribute(-1, xmlNodePath, AttributeName, AttributeValue);
+        }
+        /// <summary>
+        /// 设置节点的唯一属性的值
+        /// </summary>
+        /// <param name="xmlNodePath">节点路径</param>
+        /// <param name="AttributeValue">属性值</param>
+        /// <returns></returns>
+        public bool SetXmlNodeAttribute(string xmlNodePath, string AttributeValue)
+        {
+            return SetXmlNodeAttribute(-1, xmlNodePath, "", AttributeValue);
+        }
+        /// <summary>
+        /// 修改相应节点key键相应的value值
+        /// </summary>
+        /// <param name="strNode">节点</param>
+        /// <param name="key">key键值</param>
+        /// <param name="value">要修改的value值</param>
+        /// <returns></returns>
+        public bool SetXmlKeyValue(string strNode, string key, string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+
+            xmlDoc.Load(this.filePath);
+
+            try
+            {
+                //根据指定路径获取节点列表
+                XmlNodeList xmlNodeList = xmlDoc.SelectNodes(strNode);
+                foreach (XmlNode xmlNode in xmlNodeList)
+                {
+                    //获取节点的属性，并循环取出需要的属性值
+                    XmlAttributeCollection xmlAttr = xmlNode.Attributes;
+
+                    for (int i = 0; i < xmlAttr.Count; i++)
+                    {
+                        if (xmlAttr.Item(i).Name.Equals("key", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (!xmlAttr.Item(i).Value.Equals(key, StringComparison.OrdinalIgnoreCase))
+                            {
+                                break;
+                            }
+                        }
+                        if (xmlAttr.Item(i).Name.Equals("value", StringComparison.OrdinalIgnoreCase))
+                        {
+                            xmlAttr.Item(i).Value = value;
+                            xmlDoc.Save(this.filePath);
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            catch (XmlException xmle)
+            {
+                throw xmle;
+            }
+            return false;
+        }
+        #endregion
+
 
         public DataTable ConvertXmlNodeListDataTable(XmlNodeList xlist)
         {
@@ -370,7 +634,7 @@
             for (int i = 0; i < xlist.Count; i++)
             {
                 DataRow row = table.NewRow();
-                XmlElement element = (XmlElement) xlist.Item(i);
+                XmlElement element = (XmlElement)xlist.Item(i);
                 int index = 0;
                 while (index < element.Attributes.Count)
                 {
@@ -401,7 +665,7 @@
             {
                 int num2;
                 DataRow row = table.NewRow();
-                XmlElement element = (XmlElement) xlist.Item(i);
+                XmlElement element = (XmlElement)xlist.Item(i);
                 if (type == 0)
                 {
                     num2 = 0;
@@ -567,7 +831,8 @@
         public void CreateXml()
         {
             FileManager.Create(this.filePath, FsoMethod.File);
-            XmlTextWriter writer = new XmlTextWriter(this.filePath, Encoding.GetEncoding("gb2312")) {
+            XmlTextWriter writer = new XmlTextWriter(this.filePath, Encoding.GetEncoding("gb2312"))
+            {
                 Formatting = Formatting.Indented,
                 Indentation = 3
             };
@@ -579,7 +844,8 @@
         public void CreateXml(string rootNodeName)
         {
             FileManager.Create(this.filePath, FsoMethod.File);
-            XmlTextWriter writer = new XmlTextWriter(this.filePath, Encoding.GetEncoding("gb2312")) {
+            XmlTextWriter writer = new XmlTextWriter(this.filePath, Encoding.GetEncoding("gb2312"))
+            {
                 Formatting = Formatting.Indented,
                 Indentation = 3
             };
@@ -603,8 +869,8 @@
                 document.Save(this.filePath);
             }
         }
-      
-       
+
+
     }
 }
 

@@ -1,8 +1,10 @@
-﻿namespace SXF.Utils
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading;
+namespace SXF.Utils
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
+
     /// <summary>
     /// 枚举信息类
     /// </summary>
@@ -10,7 +12,7 @@
     public class EnumDescription : Attribute
     {
         private static IDictionary<string, IList<EnumDescription>> EnumDescriptionCache = new Dictionary<string, IList<EnumDescription>>();
-        
+
         private FieldInfo m_fieldIno;
 
         private string m_description;
@@ -34,7 +36,7 @@
         {
             get
             {
-                return ( int ) this.m_fieldIno.GetValue( null );
+                return (int)this.m_fieldIno.GetValue(null);
             }
         }
 
@@ -84,7 +86,7 @@
         /// <returns></returns>
         public static string GetEnumText(Type enumType)
         {
-            EnumDescription[] customAttributes = (EnumDescription[]) enumType.GetCustomAttributes(typeof(EnumDescription), false);
+            EnumDescription[] customAttributes = (EnumDescription[])enumType.GetCustomAttributes(typeof(EnumDescription), false);
             if (customAttributes.Length < 1)
             {
                 return string.Empty;
@@ -151,63 +153,72 @@
         /// <returns>枚举描述集合</returns>
         public static IList<EnumDescription> GetFieldTexts(Type enumType, SortType sortType)
         {
-            if (!EnumDescriptionCache.ContainsKey(enumType.FullName))
+            Monitor.Enter(EnumDescriptionCache);
+            try
             {
-                FieldInfo[] fields = enumType.GetFields();
-                IList<EnumDescription> list = new List<EnumDescription>();
-                foreach (FieldInfo info in fields)
+                if (!EnumDescriptionCache.ContainsKey(enumType.FullName))
                 {
-                    object[] customAttributes = info.GetCustomAttributes(typeof(EnumDescription), false);
-                    if (customAttributes.Length == 1)
+                    FieldInfo[] fields = enumType.GetFields();
+                    IList<EnumDescription> list = new List<EnumDescription>();
+                    foreach (FieldInfo info in fields)
                     {
-                        EnumDescription item = (EnumDescription) customAttributes[0];
-                        item.m_fieldIno = info;
-                        list.Add(item);
-                    }
-                }
-                EnumDescriptionCache.Add(enumType.FullName, list);
-            }
-            IList<EnumDescription> list2 = EnumDescriptionCache[enumType.FullName];
-            if (list2.Count <= 0)
-            {
-                throw new NotSupportedException("枚举类型[" + enumType.Name + "]未定义属性EnumValueDescription");
-            }
-            if (sortType != SortType.Default)
-            {
-                for (int i = 0; i < list2.Count; i++)
-                {
-                    for (int j = i; j < list2.Count; j++)
-                    {
-                        bool flag = false;
-                        switch (sortType)
+                        object[] customAttributes = info.GetCustomAttributes(typeof(EnumDescription), false);
+                        if (customAttributes.Length == 1)
                         {
-                            case SortType.DisplayText:
-                                if (string.Compare(list2[i].Description, list2[j].Description) > 0)
-                                {
-                                    flag = true;
-                                }
-                                break;
+                            EnumDescription item = (EnumDescription)customAttributes[0];
+                            item.m_fieldIno = info;
+                            list.Add(item);
+                        }
+                    }
+                    EnumDescriptionCache.Add(enumType.FullName, list);
+                }
+                IList<EnumDescription> list2 = EnumDescriptionCache[enumType.FullName];
+                if (list2.Count <= 0)
+                {
+                    throw new NotSupportedException("枚举类型[" + enumType.Name + "]未定义属性EnumValueDescription");
+                }
+                if (sortType != SortType.Default)
+                {
+                    for (int i = 0; i < list2.Count; i++)
+                    {
+                        for (int j = i; j < list2.Count; j++)
+                        {
+                            bool flag = false;
+                            switch (sortType)
+                            {
+                                case SortType.DisplayText:
+                                    if (string.Compare(list2[i].Description, list2[j].Description, StringComparison.Ordinal) > 0)
+                                    {
+                                        flag = true;
+                                    }
+                                    break;
 
-                            case SortType.Rank:
-                                if (list2[i].EnumRank > list2[j].EnumRank)
-                                {
-                                    flag = true;
-                                }
-                                break;
-                        }
-                        if (flag)
-                        {
-                            EnumDescription description2 = list2[i];
-                            list2[i] = list2[j];
-                            list2[j] = description2;
+                                case SortType.Rank:
+                                    if (list2[i].EnumRank > list2[j].EnumRank)
+                                    {
+                                        flag = true;
+                                    }
+                                    break;
+                            }
+                            if (flag)
+                            {
+                                EnumDescription description2 = list2[i];
+                                list2[i] = list2[j];
+                                list2[j] = description2;
+                            }
                         }
                     }
                 }
+                return list2;
             }
-            return list2;
+            finally
+            {
+                Monitor.Exit(EnumDescriptionCache);
+            }
+
         }
 
-      
+
     }
 }
 

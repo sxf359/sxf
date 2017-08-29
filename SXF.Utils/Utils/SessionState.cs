@@ -13,6 +13,10 @@
         /// <returns></returns>
         public static object Get(string name)
         {
+            if (HttpContext.Current == null || HttpContext.Current.Session == null)
+            {
+                return "";
+            }
             return HttpContext.Current.Session[name];
         }
         /// <summary>

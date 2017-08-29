@@ -202,7 +202,7 @@
             return MD5(s + ApplicationSettings.Get("CookieToken"));
         }*/
         /// <summary>
-        ///  32 位 MD5 加密 
+        ///  32 位 MD5 加密
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -990,6 +990,15 @@
             return orderNo;
         }
         /// <summary>
+        /// 获取随机6位数
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRandomSix()
+        {
+            string rnd = ro.Next(100000, 999999).ToString();
+            return rnd;
+        }
+        /// <summary>
         /// 根据url路径获取网页内容，url可能是外站url
         /// </summary>
         /// <param name="url"></param>
@@ -1074,6 +1083,58 @@
             return false;
         }
         /// <summary>
+        ///是否是android平板电脑
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsAndroidTablet()
+        {
+            if (HttpContext.Current == null)
+            {
+                return false;
+            }
+            string userAgent = HttpContext.Current.Request.UserAgent;
+            if (userAgent.IndexOf("Android") >= 0 && userAgent.IndexOf("Mobile") == -1)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        ///是否是苹果平板电脑
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsiPad()
+        {
+            if (HttpContext.Current == null)
+            {
+                return false;
+            }
+            string userAgent = HttpContext.Current.Request.UserAgent;
+            if (userAgent.IndexOf("iPad") >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        ///是否是windows phone登录
+        /// </summary>
+        /// <returns></returns>
+        public static bool IswindowsPhone()
+        {
+            if (HttpContext.Current == null)
+            {
+                return false;
+            }
+            string userAgent = HttpContext.Current.Request.UserAgent;
+            if (userAgent.IndexOf("phone") >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 检测是否手机端访问
         /// </summary>
         /// <returns></returns>
@@ -1088,9 +1149,11 @@
             {
                 return false;
             }
-            //"Android","iPhone","SymbianOS","Windows Phone","iPad","iPod"
-            if (userAgent.IndexOf("Android") >= 0 || userAgent.IndexOf("iPhone") >= 0 || userAgent.IndexOf("SymbianOS") >= 0 || userAgent.IndexOf("Windows Phone") >= 0 || userAgent.IndexOf("iPad") >= 0 || userAgent.IndexOf("iPod") >= 0)
+            //EventLog.WriteLog(userAgent);
+            //android手机访问
+            if ((userAgent.IndexOf("Mobile") >= 0 && userAgent.IndexOf("Android") >= 0) || userAgent.IndexOf("iPhone") >= 0 || userAgent.IndexOf("Windows Phone") >= 0)
             {
+                //EventLog.WriteLog("mobile access");
                 return true;
             }
             return false;
@@ -1117,6 +1180,27 @@
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
             return (int)(time - startTime).TotalSeconds;
+        }
+        /// <summary>
+        /// 比较两个一维字符串数组是否相同，这个相同是指元素个数相等，并且值相同，但是元素位置可能不同
+        /// </summary>
+        /// <param name="arr1"></param>
+        /// <param name="arr2"></param>
+        /// <returns></returns>
+        public static bool CompareArrayEqual(string[] arr1, string[] arr2)
+        {
+            if (arr1 == null || arr2 == null) return false;
+            if (arr1.Length != arr2.Length) return false;
+            Array.Sort(arr1);
+            Array.Sort(arr2);
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (arr1[i] != arr2[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

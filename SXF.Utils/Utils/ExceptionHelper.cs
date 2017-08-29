@@ -29,7 +29,7 @@ namespace SXF.Utils
         /// <param name="errorCode"></param>
         static void WriteException(Exception ero, string errorCode)
         {
-            return;    //网上不再做特殊处理，直接显示错误信息
+            //return;    //网上不再做特殊处理，直接显示错误信息
             string address = RequestHelper.GetServerIp();
             //本地不作处理
             if (address.Contains("192.168."))
@@ -92,7 +92,7 @@ namespace SXF.Utils
         /// <param name="ero"></param>
         public static void WriteException(Exception ero)
         {
-
+            //EventLog.Log("start1", "error");
             bool logError = true;
             if (ero is HttpException)
             {
@@ -110,24 +110,29 @@ namespace SXF.Utils
                 //return;
                 logError = false;
             }
-
-            string errorCode = "";
+            //EventLog.Log("start2", "error");
+            string errorCode = string.Empty;
             if (logError)
             {
+                //EventLog.Log("start6", "error");
                 errorCode = InnerLogException(ero);
             }
             if (Utility.IsLocal())
             {
+
                 //第一种页面错误输出方式
-                WriteException(ero, errorCode);
+                //WriteException(ero, errorCode);
+                Show("");
+
             }
             else
             {
+                //EventLog.Log("start4", "error");
                 //第二种页面错误输出方式，不显示具体错误信息，只显示友好提示
                 //WriteException(ero, errorCode);
                 Show("");
             }
-
+            //EventLog.Log("start5", "error");
             //第三种页面错误输出方式，和第一种只有显示样式的区别，其他大致相同
             //Show(ero);
         }
@@ -185,7 +190,10 @@ namespace SXF.Utils
             stringBuilder.Append("</body>");
             stringBuilder.Append("</html>");
             HttpContext.Current.Response.Write(stringBuilder.ToString());
+            //EventLog.Log("show1", "error");
             HttpContext.Current.Response.End();
+            return;
+
         }
         /// <summary>
         /// 错误信息显示
@@ -213,6 +221,7 @@ namespace SXF.Utils
             stringBuilder.Append("</html>");
             HttpContext.Current.Response.Write(stringBuilder.ToString());
             HttpContext.Current.Response.End();
+            return;
         }
         /// <summary>
         /// 详细错误信息显示
@@ -239,6 +248,7 @@ namespace SXF.Utils
             stringBuilder.Append("</html>");
             HttpContext.Current.Response.Write(stringBuilder.ToString());
             HttpContext.Current.Response.End();
+            return;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SXF.Utils</RootNamespace>
     <AssemblyName>SXF.Utils</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,15 +61,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Quartz, Version=1.0.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\Quartz.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\refrerence\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\packages\StackExchange.Redis.1.2.3\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,9 +87,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\zhaopin\refrerence\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode">
+      <HintPath>..\refrerence\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,8 +108,10 @@
     </Compile>
     <Compile Include="QuartzScheduler\QuartzJob.cs" />
     <Compile Include="QuartzScheduler\QuartzWorker.cs" />
+    <Compile Include="ThoughtWorks\QRCode.cs" />
     <Compile Include="Utils\AES.cs" />
     <Compile Include="Utils\ApplicationSettings.cs" />
+    <Compile Include="Utils\ArrHelper.cs" />
     <Compile Include="Utils\CacheHelper.cs" />
     <Compile Include="Utils\CollectionHelper.cs" />
     <Compile Include="Utils\Common.cs" />
@@ -101,12 +122,14 @@
     <Compile Include="Utils\DataHelper.cs" />
     <Compile Include="Utils\DateHelper.cs" />
     <Compile Include="Utils\DES.cs" />
+    <Compile Include="Utils\DisposableBase.cs" />
     <Compile Include="Utils\DropDownListHelp.cs" />
     <Compile Include="Utils\Email.cs" />
     <Compile Include="Utils\Encrypt.cs" />
     <Compile Include="Utils\EnumDescription.cs" />
     <Compile Include="Utils\EventLog.cs" />
     <Compile Include="Utils\ExceptionHelper.cs" />
+    <Compile Include="Utils\ExportHelper.cs" />
     <Compile Include="Utils\ExtensionMethodControl.cs" />
     <Compile Include="Utils\ExtensionMethodString.cs" />
     <Compile Include="Utils\FileManager.cs" />
@@ -117,19 +140,30 @@
     <Compile Include="Utils\JSHelper.cs" />
     <Compile Include="Utils\JSONHelper.cs" />
     <Compile Include="Utils\Judge.cs" />
+    <Compile Include="Utils\MVC\CustomerException\JsonExceptionAttribute.cs" />
+    <Compile Include="Utils\MVC\CustomerException\LogManage.cs" />
     <Compile Include="Utils\MachineCode.cs" />
+    <Compile Include="Utils\MapperProvider.cs" />
+    <Compile Include="Utils\MVC\CustomerException\LogExceptionAttribute.cs" />
+    <Compile Include="Utils\MVC\CustomValidation\CompareValuesAttribute.cs" />
+    <Compile Include="Utils\MVC\DbHelper.cs" />
     <Compile Include="Utils\PageHelper.cs" />
     <Compile Include="Utils\PageHttpHandler.cs" />
+    <Compile Include="Utils\PageTimeHttpModule.cs" />
     <Compile Include="Utils\PinYin.cs" />
+    <Compile Include="Utils\RedirectHelper.cs" />
+    <Compile Include="Utils\RedisHelper.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="Utils\RequestHelper.cs" />
     <Compile Include="Utils\SerializationHelper.cs" />
     <Compile Include="Utils\SessionState.cs" />
     <Compile Include="Utils\ShoppingCart.cs" />
     <Compile Include="Utils\Sms.cs" />
+    <Compile Include="Utils\SSO.cs" />
     <Compile Include="Utils\StringBuffer.cs" />
     <Compile Include="Utils\StringCommon.cs" />
     <Compile Include="Utils\SymmetricMethod.cs" />
+    <Compile Include="Utils\TaskAsyncHelper.cs" />
     <Compile Include="Utils\Terminator.cs" />
     <Compile Include="Utils\TextEncrypt.cs" />
     <Compile Include="Utils\TextFilter.cs" />
@@ -144,7 +178,6 @@
     <Compile Include="Utils\UrlRewriteRules.cs" />
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Utils\Validate.cs" />
-    <Compile Include="Utils\VerifyCode.cs" />
     <Compile Include="Utils\XmlOperate.cs" />
   </ItemGroup>
   <ItemGroup>

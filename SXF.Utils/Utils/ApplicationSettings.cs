@@ -1,6 +1,5 @@
 ﻿namespace SXF.Utils
 {
-    using System;
     using System.Configuration;
     /// <summary>
     /// 对ConfigurationSettings.AppSettings操作类
@@ -22,9 +21,9 @@
             //EventLog.WriteLog("key="+key);
             if (str == null)
             {
-               
+
                 //throw new FrameworkExcption("sxf");
-                throw new FrameworkExcption("WebConfigHasNotAddKey", new string[] { key });
+                throw new FrameworkExcption("WebConfigHasNotAddKey ApplicationSettings", new string[] { key });
             }
             return str;
         }

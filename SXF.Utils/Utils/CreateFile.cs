@@ -5,12 +5,8 @@
 ############################################################# */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Net;
 using System.IO;
+using System.Web;
 
 namespace SXF.Utils
 {
@@ -82,16 +78,20 @@ namespace SXF.Utils
             }
             catch
             {
-               EventLog.WriteLog("生成静态文件失败！");
+                EventLog.WriteLog("生成静态文件失败！");
 
             }
             finally
             {
                 sw.Close();
                 sr.Close();
-                resStream.Close();
+                if (resStream != null)
+                {
+                    resStream.Close();
+                }
+
             }
-             
+
 
 
         }

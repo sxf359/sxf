@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.IO;
 using System.Text;
 using System.Web;
-using System.IO;
-using System.Configuration;
-using System.Net.Sockets;
 
 namespace SXF.Utils
 {
@@ -21,8 +17,8 @@ namespace SXF.Utils
         /// <summary>
         /// 是否使用上下文信息写日志
         /// </summary>
-        public static bool UseContext = true;
-        static string thisDomain = "";
+        static bool UseContext = true;
+        static string _thisDomain = "";
 
 
         #region LogItem
@@ -110,6 +106,10 @@ namespace SXF.Utils
         /// <param name="path"></param>
         public static void CreateFolder(string path)
         {
+            if (path.IsNullOrEmpty())
+            {
+                return;
+            }
             string folder = "";
             string[] arry = path.Split('\\');
             for (int i = 0; i < arry.Length; i++)
@@ -167,9 +167,9 @@ namespace SXF.Utils
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(thisDomain))
+                    if (string.IsNullOrEmpty(_thisDomain))
                     {
-                        thisDomain = context.Request.Url.Host;
+                        _thisDomain = context.Request.Url.Host;
                     }
                     if (UseContext)
                     {
@@ -250,7 +250,7 @@ namespace SXF.Utils
 
 
         static bool Writing = false;
-        static DateTime lastWriteTime = DateTime.Now;
+        //static DateTime lastWriteTime = DateTime.Now;
         static Dictionary<string, LogItemArry> logCaches = new Dictionary<string, LogItemArry>();
         static System.Timers.Timer timer;
         private static void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

@@ -8,11 +8,15 @@ using System.Web.UI;
 
 namespace SXF.Utils
 {
+    /// <summary>
+    /// 页面执行时间实现类
+    /// </summary>
     public class PageHttpHandler : IHttpHandler, IRequiresSessionState
     {
         
         public void ProcessRequest(HttpContext context)
         {
+            //EventLog.WriteLog("page1");
             string rawUrl = context.Request.RawUrl;
             string file = context.Request.Path;
             DateTime startTime = DateTime.Now;
@@ -24,10 +28,13 @@ namespace SXF.Utils
                 context.Handler = handler;
                 handler.ProcessRequest(context);
                 TimeSpan duration = DateTime.Now - startTime;
-                if (duration.TotalMilliseconds > 0)
+                //EventLog.WriteLog(""+duration);
+                //如果页面执行时间超过1000毫秒，则日志中进行记录
+                if (duration.TotalMilliseconds >= 1000)
                 {
                     string message = Convert.ToUInt32(duration.TotalMilliseconds).ToString().PadRight(6) + "ms " + file;
                     EventLog.Log(message, "Page");
+                    //EventLog.WriteLog("page3");
                 }
             }
             catch (Exception ero)
@@ -35,12 +42,10 @@ namespace SXF.Utils
                 EventLog.Error("PageHttpHandler:" + ero.Message);
                 throw ero;
             }
-            //context.Response.Write(String.Format("Request finshed. Total duration: {0} ms.", duration.Milliseconds));
+           
         }
 
-        /// <summary>
-        ///
-        /// </summary>
+        
         public bool IsReusable
         {
             get { return true; }

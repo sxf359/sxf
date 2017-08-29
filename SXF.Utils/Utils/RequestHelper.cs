@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Net;
+using System.Web;
 
 namespace SXF.Utils
 {
@@ -75,7 +72,7 @@ namespace SXF.Utils
 
         }
 
-        
+
 
         /// <summary>
         /// 获取当前请求的原始 URL(URL 中域信息之后的部分,包括查询字符串(如果存在))
@@ -242,7 +239,7 @@ namespace SXF.Utils
         /// <returns>Url参数的int类型值</returns>
         public static int GetQueryInt(string strName, int defValue)
         {
-           
+
             return TypeParse.StrToInt(HttpContext.Current.Request.QueryString[strName], defValue);
         }
 
@@ -283,27 +280,59 @@ namespace SXF.Utils
         /// <returns>当前页面客户端的IP</returns>
         public static string GetIP()
         {
+            string userIP = "未获取用户IP";
 
-
-            string result = String.Empty;
-
-            result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (null == result || result == String.Empty)
+            try
             {
-                result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            }
+                if (HttpContext.Current == null)
+                {
+                    return "";
+                }
 
-            if (null == result || result == String.Empty)
-            {
-                result = HttpContext.Current.Request.UserHostAddress;
-            }
+                string customerIp = "";
 
-            if (null == result || result == String.Empty || !StringHelper.IsIP(result))
-            {
-                return "0.0.0.0";
-            }
+                //CDN加速后取到的IP simone 090805
+                customerIp = HttpContext.Current.Request.Headers["Cdn-Src-Ip"];
+                if (!string.IsNullOrEmpty(customerIp))
+                {
+                    return customerIp;
+                }
 
-            return result;
+                customerIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+                if (!String.IsNullOrEmpty(customerIp))
+                {
+                    return customerIp;
+                }
+
+                if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
+                {
+                    customerIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+                    if (customerIp == null)
+                    {
+                        customerIp = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    }
+                }
+                else
+                {
+                    customerIp = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
+
+                if (String.Compare(customerIp, "unknown", StringComparison.OrdinalIgnoreCase) == 0 || String.IsNullOrEmpty(customerIp))
+                {
+                    return HttpContext.Current.Request.UserHostAddress;
+                }
+                return customerIp;
+            }
+            catch { }
+
+            return userIP;
+
+
+
+
+
 
         }
         /// <summary>
@@ -316,9 +345,48 @@ namespace SXF.Utils
 
             if (string.IsNullOrEmpty(address))
             {
-                address = HttpContext.Current.Request.UserHostAddress.ToString();
+
+                address = HttpContext.Current.Request.UserHostAddress;
             }
             return address;
+        }
+        /// <summary>
+        /// 获取外网IP
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPublicIp()
+        {
+            //string url = "http://1212.ip138.com/ic.asp";
+            //WebRequest request = WebRequest.Create(url);
+            //WebResponse response = request.GetResponse();
+            //using (Stream stream = response.GetResponseStream())
+            //{
+            //    //using (StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("utf-8")))
+            //    using (StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("gb2312")))
+            //    {
+            //        string html = reader.ReadToEnd();
+            //        string pattern = @"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})";
+            //        //MatchCollection matchs = Regex.Matches(html, pattern);
+            //        //foreach (Match match in matchs)
+            //        //{
+            //        //    EventLog.WriteLog(match.Value);
+            //        //}
+            //        Match match = Regex.Match(html, pattern);
+
+
+            //        return match.Value;
+
+            //    }
+
+            //}
+            string ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = HttpContext.Current.Request.UserHostAddress;
+            }
+
+            return ip;
+
         }
         static string serverIp;
         /// <summary>
@@ -351,7 +419,7 @@ namespace SXF.Utils
         /// <returns></returns>
         public static string GetCurrentFullHost()
         {
-            
+
             HttpRequest request = HttpContext.Current.Request;
             if (!request.Url.IsDefaultPort)
             {
@@ -371,5 +439,7 @@ namespace SXF.Utils
             }
             return HttpContext.Current.Request.Url.Host;
         }
+
+
     }
 }

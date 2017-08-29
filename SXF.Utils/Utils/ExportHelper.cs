@@ -91,9 +91,7 @@ namespace SXF.Utils
         {
             ToExcel(dt, getTimeName());
         }
-        #endregion
 
-        #region DataTable导出Excel
         /// <summary>
         /// 重载,将DataTable里的数据呈现到Excel
         /// </summary>
@@ -157,9 +155,7 @@ namespace SXF.Utils
             curContext.Response.Flush();
             curContext.Response.End();
         }
-        #endregion
 
-        #region DataTable导出Word
         /// <summary>
         /// 将DataTable里的数据呈现到Word
         /// </summary>
@@ -237,7 +233,8 @@ namespace SXF.Utils
             try
             {
                 OleDbConnection cnnxls = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + SavePath + ";Extended Properties='Excel 12.0;HDR=NO;IMEX=1'");
-                new OleDbDataAdapter("select * from [Sheet1$]", cnnxls).Fill(myDs);
+                //new OleDbDataAdapter("select * from [Sheet1$]", cnnxls).Fill(myDs);
+                new OleDbDataAdapter("select * from [newhd$]", cnnxls).Fill(myDs);
             }
             catch (Exception ee)
             {
